@@ -5,3 +5,4 @@ export const TodoItem = ({ task }) => {
     </>
   );
 };
+export default TodoItem;
