@@ -14,7 +14,7 @@ function App() {
   return (
     <>
     
-     <TodoList TodoItems={[" MIRI", "TO DO HOMEWORK", "לשטוף כלים"]} />
+     <TodoList TodoItems={[{ id: 1, task: " MIRI", status: false }, { id: 2, task: "TO DO HOMEWORK", status: true }, { id: 3, task: "לשטוף כלים", status: true }]} />
     </>
   )
 }

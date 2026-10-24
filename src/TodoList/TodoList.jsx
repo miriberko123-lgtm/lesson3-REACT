@@ -1,27 +1,34 @@
 import { useState } from 'react';
 import TodoItem from '../Todoitem/Todoitem.jsx';
-
-export const TodoList = ({ TodoItems=["ללמוד React", "לעשות קניות", "לתרגל קוד"] }) => {
+import TodoForm from '../TodoForm/TodoForm.jsx';
+export const TodoList = ({ TodoItems=[] }) => {
     const [tasks, setTasks] = useState(TodoItems);
-    const [inputValue, setInputValue] = useState("");
-           
+    const addTask = (newTask) => {
+        const trimmedValue = newTask.trim();
+        if (!trimmedValue || tasks.some((task) => task.task === trimmedValue)) return;
+        setTasks((currentTasks) => [
+            ...currentTasks,
+            { id: Date.now(), task: trimmedValue, status: false },
+        ]);
+    };
+
+    const completeTask = (id) => {
+        setTasks((currentTasks) =>
+            currentTasks.map((task) =>
+                task.id === id ? { ...task, status: true } : task
+            )
+        );
+    }
+
   return (
     <>
         <h1>Todo List</h1>
         <ul>
-            {tasks.map((task, index)=>  (<TodoItem key={index} task={task} />))}
+            {tasks.map((task, index)=>  (<TodoItem key={task.id ?? index} id={task.id} status={task.status} task={task.task} func={completeTask} />
+        ))}
+        
         </ul>
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            const trimmedValue = inputValue.trim();
-            if (!trimmedValue || tasks.includes(trimmedValue))
-                  return;
-            setTasks([...tasks, trimmedValue]);
-            setInputValue("");
-        }}>
-            <input type="text" placeholder="הקלידי משימה חדשה..." value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-            <button type="submit">אישור</button>
-        </form>
+        <TodoForm func={addTask} />
     </>
     );
 }

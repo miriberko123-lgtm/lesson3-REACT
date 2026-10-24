@@ -1,8 +1,10 @@
-export const TodoItem = ({ task }) => {
+export const TodoItem = ({ id, status, task,func }) => {
+  const statusText = status ? "green" : "red";
   return (
-    <>
-      <li>{task}</li>
-    </>
+    <li style={{ color: statusText }}>
+      {task}
+      {status || <button onClick={() => func(id)}>Complete</button>}
+    </li>
   );
 };
 export default TodoItem;
